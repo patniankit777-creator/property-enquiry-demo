@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Realty Builders | AI Property Matching</title>
+  <meta name="description" content="Elite Realty Builders AI-powered property enquiry and matching demo." />
+  <style>
+    :root{
+      --green:#173b32;
+      --green-2:#214d41;
+      --cream:#f7f3ea;
+      --paper:#fffdf8;
+      --gold:#b9964f;
+      --ink:#17231f;
+      --muted:#68736e;
+      --line:#dedfd7;
+      --success:#28664f;
+      --error:#9a3d32;
+      --shadow:0 24px 70px rgba(19,43,36,.13);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:var(--cream);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .topbar{
+      background:var(--green);
+      color:#f7f3ea;
+      padding:14px 5vw;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .brand-mini{font-weight:700}
+    .powered-mini{opacity:.7}
+    .hero{
+      background:var(--green);
+      color:#fffdf8;
+      padding:72px 5vw 92px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      width:460px;height:460px;
+      border:1px solid rgba(201,162,39,.22);
+      border-radius:50%;
+      right:-170px;top:-220px;
+    }
+    .hero-inner{max-width:1180px;margin:auto;position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:999px;
+      padding:9px 14px;
+      font-size:11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#e9dfc8;
+    }
+    .dot{width:7px;height:7px;border-radius:50%;background:#d6b45e;box-shadow:0 0 0 4px rgba(214,180,94,.12)}
+    h1{
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:400;
+      font-size:clamp(46px,7vw,82px);
+      line-height:.98;
+      letter-spacing:-.045em;
+      max-width:850px;
+      margin:28px 0 22px;
+    }
+    .hero p{
+      max-width:670px;
+      font-size:18px;
+      line-height:1.65;
+      color:#d8e0db;
+      margin:0;
+    }
+    .hero-accent{color:#d8bc72}
+    main{max-width:1180px;margin:-48px auto 0;padding:0 24px 70px;position:relative;z-index:2}
+    .card{
+      background:var(--paper);
+      border:1px solid rgba(23,59,50,.1);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+    }
+    .form-card{padding:36px}
+    .card-head{
+      display:flex;justify-content:space-between;gap:20px;align-items:flex-start;
+      margin-bottom:30px;
+    }
+    .kicker{
+      color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+      margin-bottom:8px;
+    }
+    h2{
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:400;font-size:34px;margin:0 0 7px;
+    }
+    .sub{color:var(--muted);font-size:14px;line-height:1.6;margin:0}
+    .demo-badge{
+      background:#f0eadc;color:#6d5727;border-radius:999px;padding:9px 13px;
+      font-size:11px;font-weight:700;letter-spacing:.08em;white-space:nowrap;
+    }
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .field.full{grid-column:1/-1}
+    label{display:block;font-size:12px;font-weight:750;letter-spacing:.04em;margin:0 0 8px}
+    input, textarea, select{
+      width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;
+      padding:14px 15px;font:inherit;font-size:14px;color:var(--ink);outline:none;
+      transition:.2s ease;
+    }
+    textarea{min-height:132px;resize:vertical;line-height:1.55}
+    input:focus,textarea:focus,select:focus{border-color:var(--green-2);box-shadow:0 0 0 3px rgba(33,77,65,.08)}
+    .actions{display:flex;align-items:center;gap:12px;margin-top:26px}
+    button{
+      border:0;border-radius:12px;padding:15px 22px;font:inherit;font-weight:750;cursor:pointer;
+      transition:transform .15s ease,opacity .15s ease,box-shadow .15s ease;
+    }
+    button:hover{transform:translateY(-1px)}
+    button:disabled{cursor:not-allowed;opacity:.65;transform:none}
+    .primary{background:var(--green);color:white;box-shadow:0 10px 24px rgba(23,59,50,.2)}
+    .secondary{background:transparent;color:var(--green);border:1px solid var(--line)}
+    .status{
+      display:none;margin-top:18px;padding:14px 16px;border-radius:12px;font-size:13px;line-height:1.5;
+    }
+    .status.show{display:block}
+    .status.loading{background:#f1eee6;color:#665a3f}
+    .status.success{background:#e8f2ed;color:var(--success)}
+    .status.error{background:#f8eae7;color:var(--error)}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+    .step{padding:25px;background:var(--paper);border:1px solid rgba(23,59,50,.09);border-radius:18px}
+    .step-num{
+      width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+      background:#eee6d3;color:#725b2c;font-weight:800;font-size:12px;margin-bottom:18px;
+    }
+    .step h3{font-family:Georgia,serif;font-size:20px;font-weight:400;margin:0 0 8px}
+    .step p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+    footer{
+      background:var(--green);color:#d7dfda;text-align:center;padding:30px 20px;
+      font-size:12px;line-height:1.8;
+    }
+    footer strong{color:#fffdf8;font-family:Georgia,serif;font-size:17px;font-weight:400}
+    footer .gold{color:#d8bc72}
+    @media(max-width:760px){
+      .topbar{padding:12px 20px}.powered-mini{display:none}
+      .hero{padding:52px 20px 82px}main{padding:0 14px 45px}
+      .form-card{padding:24px 18px}.card-head{display:block}
+      .demo-badge{display:inline-block;margin-top:15px}.grid,.steps{grid-template-columns:1fr}
+      .field.full{grid-column:auto}h1{font-size:52px}.hero p{font-size:16px}
+      .actions{flex-direction:column;align-items:stretch}.actions button{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand-mini">Elite Realty Builders</div>
+    <div class="powered-mini">AI-Powered Property Matching</div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="dot"></span> Smart Property Enquiry · Live Automation Demo</div>
+      <h1>Find the right home.<br><span class="hero-accent">Without the back-and-forth.</span></h1>
+      <p>
+        Tell us what you're looking for and our AI-powered workflow will qualify your enquiry,
+        shortlist relevant properties and prepare the next step for a consultant.
+      </p>
+    </div>
+  </section>
+
+  <main>
+    <section class="card form-card">
+      <div class="card-head">
+        <div>
+          <div class="kicker">Property Enquiry</div>
+          <h2>Tell us what you're looking for</h2>
+          <p class="sub">A few details are enough. We'll take care of the matching.</p>
+        </div>
+        <div class="demo-badge">N8N AUTOMATION DEMO</div>
+      </div>
+
+      <form id="enquiryForm">
+        <div class="grid">
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" value="Rohit Deshmukh" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" value="+919822014567" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" value="hausofintelligence@gmail.com" required />
+          </div>
+          <div class="field">
+            <label for="source">Lead Source</label>
+            <select id="source" name="source">
+              <option selected>99acres</option>
+              <option>MagicBricks</option>
+              <option>Housing.com</option>
+              <option>Website</option>
+              <option>Referral</option>
+              <option>Instagram</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="enquiry">What are you looking for?</label>
+            <textarea id="enquiry" name="enquiry" required>Hi, mujhe 2bhk chahiye Wakad ya Baner me. Budget around 90 lakh hai. Possession within 12 months preferred.</textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="submitBtn" type="submit">Find My Properties →</button>
+          <button class="secondary" id="clearBtn" type="button">Clear Form</button>
+        </div>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="steps" aria-label="How it works">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Share your requirement</h3>
+        <p>Tell us your preferred location, configuration, budget and possession timeline.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>AI matches properties</h3>
+        <p>The automation qualifies the lead and checks the property inventory for suitable options.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Consultant follows up</h3>
+        <p>The consultant receives a concise lead brief and can move straight to the useful conversation.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Elite Realty Builders</strong><br>
+    AI-Powered Property Matching<br>
+    <span class="gold">Powered by NeoVibe AI Labs · by Ankit Patni</span>
+  </footer>
+
+  <script>
+    // IMPORTANT: Keep this webhook URL unchanged.
+    const WEBHOOK_URL = "https://n8n.srv1634377.hstgr.cloud/webhook-test/broker-lead";
+
+    const form = document.getElementById("enquiryForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const statusBox = document.getElementById("status");
+
+    function setStatus(type, message) {
+      statusBox.className = "status show " + type;
+      statusBox.textContent = message;
+    }
+
+    function clearStatus() {
+      statusBox.className = "status";
+      statusBox.textContent = "";
+    }
+
+    clearBtn.addEventListener("click", () => {
+      form.reset();
+      document.getElementById("name").value = "";
+      document.getElementById("phone").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("enquiry").value = "";
+      document.getElementById("source").value = "99acres";
+      clearStatus();
+      document.getElementById("name").focus();
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearStatus();
+
+      const data = {
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        enquiry: document.getElementById("enquiry").value.trim(),
+        source: document.getElementById("source").value
+      };
+
+      if (!data.name || !data.phone || !data.email || !data.enquiry) {
+        setStatus("error", "Please complete the required fields before submitting.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      clearBtn.disabled = true;
+      submitBtn.textContent = "Finding suitable properties...";
+      setStatus("loading", "Finding suitable properties and preparing your enquiry...");
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error("Webhook returned HTTP " + response.status);
+        }
+
+        setStatus(
+          "success",
+          "Enquiry received. We're matching your requirements now. Your property consultant will follow up shortly."
+        );
+        submitBtn.textContent = "Enquiry Submitted ✓";
+      } catch (error) {
+        console.error(error);
+        setStatus(
+          "error",
+          "We couldn't connect to the enquiry service right now. Please try again in a moment."
+        );
+        submitBtn.textContent = "Try Again →";
+      } finally {
+        clearBtn.disabled = false;
+        if (submitBtn.textContent !== "Enquiry Submitted ✓") {
+          submitBtn.disabled = false;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
