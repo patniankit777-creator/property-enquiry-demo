@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NeoVibe Labs — Client Onboarding</title>
+<style>
+:root{--bg:#070812;--panel:rgba(17,21,36,.82);--line:rgba(255,255,255,.11);--text:#f7f7ff;--muted:#a3abc1;--purple:#8b5cf6;--cyan:#22d3ee;--ok:#34d399;--danger:#fb7185}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% 8%,rgba(139,92,246,.2),transparent 34%),radial-gradient(circle at 90% 78%,rgba(34,211,238,.13),transparent 34%),var(--bg)}
+.wrap{width:min(900px,92%);margin:auto;padding:34px 0 55px}.brand{display:flex;align-items:center;gap:13px;margin-bottom:48px}.mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));box-shadow:0 10px 35px rgba(99,102,241,.25)}.brand strong{font-size:18px;display:block}.brand small{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.hero{margin-bottom:32px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#bca9ff}.hero h1{font-size:clamp(38px,6vw,66px);line-height:.98;letter-spacing:-.055em;margin:11px 0 17px;max-width:850px}.hero p{font-size:17px;line-height:1.65;color:var(--muted);max-width:690px;margin:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 30px 90px rgba(0,0,0,.4);backdrop-filter:blur(22px)}
+.progress{display:flex;gap:7px;margin-bottom:10px}.bar{height:5px;flex:1;border-radius:20px;background:#292e40}.bar.active{background:linear-gradient(90deg,var(--purple),var(--cyan))}
+.stepname{font-size:12px;color:var(--muted);margin-bottom:25px}.stepname b{color:#fff}
+.demo{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.025);padding:12px 14px;border-radius:14px;margin-bottom:24px}.demo b{font-size:13px}.demo small{color:var(--muted);font-size:11px}.toggle{position:relative;width:42px;height:24px}.toggle input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;border-radius:30px;background:#303548;cursor:pointer}.slider:before{content:"";position:absolute;width:18px;height:18px;top:3px;left:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--purple)}.toggle input:checked+.slider:before{transform:translateX(18px)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}input,select,textarea{width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:13px;background:rgba(4,7,14,.75);color:#fff;font:inherit;outline:none;transition:.2s}input::placeholder,textarea::placeholder{color:#687188}input:focus,select:focus,textarea:focus{border-color:rgba(139,92,246,.9);box-shadow:0 0 0 3px rgba(139,92,246,.12)}textarea{min-height:145px;resize:vertical}option{background:#111522}.required{color:#bca9ff}.hint{font-size:11px;color:#707991;margin-top:7px}.error{font-size:11px;color:#ff9aaa;margin-top:6px;display:none}
+.review{display:grid;gap:0}.row{display:flex;justify-content:space-between;gap:25px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}.row .key{color:var(--muted);font-size:12px}.row .value{text-align:right;font-size:13px;max-width:65%;white-space:pre-wrap;overflow-wrap:anywhere}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:28px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;border-radius:12px;padding:13px 20px;font-weight:750;cursor:pointer}.btn:hover{background:rgba(255,255,255,.09)}.primary{border:0;background:linear-gradient(135deg,var(--purple),#6d5dfc 52%,var(--cyan));box-shadow:0 12px 32px rgba(109,93,252,.2)}.btn:disabled{opacity:.55;cursor:not-allowed}
+.status{margin-top:18px;padding:13px 14px;border-radius:12px;font-size:12px;line-height:1.5;display:none}.status.bad{display:block;color:#ffb4c0;background:rgba(251,113,133,.08);border:1px solid rgba(251,113,133,.24)}.status.info{display:block;color:#c7d2fe;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.22)}
+.success{text-align:center;padding:42px 10px 35px}.success-icon{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:auto;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.28);color:#8df0c3;font-size:28px}.success h2{font-size:30px;margin:18px 0 8px}.success p{color:var(--muted);line-height:1.6}.received{display:inline-flex;align-items:center;gap:7px;color:#9ef1cc;font-size:11px;margin-top:14px}.dot{width:7px;height:7px;background:var(--ok);border-radius:50%;box-shadow:0 0 12px var(--ok)}
+footer{text-align:center;color:#69728a;font-size:11px;margin-top:22px;line-height:1.6}
+@media(max-width:680px){.wrap{padding-top:25px}.brand{margin-bottom:38px}.hero h1{font-size:41px}.hero p{font-size:15px}.card{padding:19px;border-radius:20px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.row{display:block}.row .value{display:block;text-align:left;max-width:100%;margin-top:5px}.actions .btn{flex:1}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="brand">
+<div class="mark">N</div>
+<div><strong>NeoVibe Labs</strong><small>AI Solutions Studio</small></div>
+</header>
+
+<section class="hero">
+<div class="eyebrow">Client onboarding</div>
+<h1>Let's build something intelligent.</h1>
+<p>Share the project brief and we'll understand what you're looking to build, automate, or transform with AI.</p>
+</section>
+
+<section class="card" id="app"></section>
+
+<footer>NeoVibe Labs by Ankit Patni · Your details are used only to understand your project requirements.</footer>
+</main>
+
+<script>
+const ENDPOINT="https://n8n.srv1634377.hstgr.cloud/form/3416676e-7257-4433-a8bb-f0f475782420";
+
+/*
+  IMPORTANT:
+  These keys intentionally match the existing n8n production form field names.
+*/
+const data={
+  "Client Full Name":"",
+  "Client Company Name":"",
+  "Client Email":"",
+  "Service Required":"",
+  "Client Specific Requirements":"",
+  "Agreed Budget (INR)":"",
+  "Your Agency Name":"",
+  "Your Name":"",
+  "Your Email":""
+};
+
+let step=1;
+let submitted=false;
+
+const app=document.getElementById("app");
+
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+function input(id,type="text",placeholder=""){
+  return `<input id="${id}" type="${type}" value="${esc(data[id])}" placeholder="${placeholder}">`;
+}
+
+function render(){
+  if(submitted){
+    app.innerHTML=`
+      <div class="success">
+        <div class="success-icon">✓</div>
+        <h2>You're all set.</h2>
+        <p>Your project brief has been submitted successfully.<br>We'll be in touch shortly.</p>
+        <div class="received"><i class="dot"></i> Submission received · ${new Date().toLocaleString()}</div>
+      </div>`;
+    return;
+  }
+
+  app.innerHTML=`
+    <div class="progress">
+      <i class="bar ${step>=1?"active":""}"></i>
+      <i class="bar ${step>=2?"active":""}"></i>
+      <i class="bar ${step>=3?"active":""}"></i>
+      <i class="bar ${step>=4?"active":""}"></i>
+    </div>
+    <div class="stepname">Step <b>${step}</b> of 4 · ${["Client Details","Project Brief","Budget & Agency","Review"][step-1]}</div>
+
+    <div class="demo">
+      <div><b>Demo Mode</b><br><small>Populate realistic sample data for testing</small></div>
+      <label class="toggle">
+        <input id="demoToggle" type="checkbox">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    ${step===1?stepOne():step===2?stepTwo():step===3?stepThree():stepFour()}
+
+    <div class="actions">
+      ${step>1?'<button class="btn" id="backBtn">Back</button>':'<span></span>'}
+      <button class="btn primary" id="nextBtn">${step===4?"Start My AI Project":"Continue"}</button>
+    </div>
+    <div id="status" class="status"></div>
+  `;
+
+  document.getElementById("nextBtn").onclick=next;
+  if(step>1) document.getElementById("backBtn").onclick=back;
+
+  document.getElementById("demoToggle").onchange=e=>{
+    if(e.target.checked){
+      Object.assign(data,{
+        "Client Full Name":"Rahul Mehta",
+        "Client Company Name":"EliteBuilders Real Estate",
+        "Client Email":"rahul@elitebuilders.demo",
+        "Service Required":"AI Automation",
+        "Client Specific Requirements":"We want to automate inbound property enquiries, qualify leads, match them with suitable properties and trigger timely follow-ups through WhatsApp.",
+        "Agreed Budget (INR)":"50000",
+        "Your Agency Name":"NeoVibe Labs",
+        "Your Name":"Ankit Patni",
+        "Your Email":"ankit@neovibeailabs.com"
+      });
+      render();
+    }
+  };
+}
+
+function stepOne(){
+  return `<div class="grid">
+    <div>
+      <label>Client Full Name <span class="required">*</span></label>
+      ${input("Client Full Name","text","e.g. Rahul Mehta")}
+    </div>
+    <div>
+      <label>Client Company Name <span class="required">*</span></label>
+      ${input("Client Company Name","text","e.g. EliteBuilders Real Estate")}
+    </div>
+    <div class="full">
+      <label>Client Email <span class="required">*</span></label>
+      ${input("Client Email","email","client@company.com")}
+    </div>
+  </div>`;
+}
+
+function stepTwo(){
+  const services=["AI Automation","AI Content Creation","AI Chatbot","AI Voice Agent","AI Website","Lead Generation","CRM / Salesforce","Custom AI Solution"];
+  return `<div class="grid">
+    <div class="full">
+      <label>Service Required <span class="required">*</span></label>
+      <select id="Service Required">
+        <option value="">Select a service</option>
+        ${services.map(x=>`<option value="${esc(x)}" ${data["Service Required"]===x?"selected":""}>${esc(x)}</option>`).join("")}
+      </select>
+    </div>
+    <div class="full">
+      <label>Client Specific Requirements <span class="required">*</span></label>
+      <textarea id="Client Specific Requirements" placeholder="Tell us what the client wants to achieve, their current process, pain points, or desired outcome.">${esc(data["Client Specific Requirements"])}</textarea>
+      <div class="hint">Keep this as detailed as possible — this is the core project brief.</div>
+    </div>
+  </div>`;
+}
+
+function stepThree(){
+  return `<div class="grid">
+    <div>
+      <label>Agreed Budget (INR) <span class="required">*</span></label>
+      <input id="Agreed Budget (INR)" type="number" min="0" value="${esc(data["Agreed Budget (INR)"])}" placeholder="e.g. 50000">
+      <div class="hint">Enter the agreed project budget in INR.</div>
+    </div>
+    <div>
+      <label>Your Agency Name <span class="required">*</span></label>
+      ${input("Your Agency Name","text","e.g. NeoVibe Labs")}
+    </div>
+    <div>
+      <label>Your Name <span class="required">*</span></label>
+      ${input("Your Name","text","e.g. Ankit Patni")}
+    </div>
+    <div>
+      <label>Your Email <span class="required">*</span></label>
+      ${input("Your Email","email","your@agency.com")}
+    </div>
+  </div>`;
+}
+
+function stepFour(){
+  return `<div class="review">
+    ${Object.entries(data).map(([key,value])=>`
+      <div class="row">
+        <span class="key">${esc(key)}</span>
+        <span class="value">${esc(value||"—")}</span>
+      </div>`).join("")}
+  </div>`;
+}
+
+function collect(){
+  Object.keys(data).forEach(key=>{
+    const el=document.getElementById(key);
+    if(el) data[key]=el.value.trim();
+  });
+}
+
+function requiredForStep(){
+  if(step===1) return ["Client Full Name","Client Company Name","Client Email"];
+  if(step===2) return ["Service Required","Client Specific Requirements"];
+  if(step===3) return ["Agreed Budget (INR)","Your Agency Name","Your Name","Your Email"];
+  return [];
+}
+
+function validate(){
+  collect();
+  const required=requiredForStep();
+
+  for(const key of required){
+    if(!data[key]){
+      const el=document.getElementById(key);
+      if(el){el.focus();el.scrollIntoView({behavior:"smooth",block:"center"});}
+      return false;
+    }
+  }
+
+  if(step===1 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data["Client Email"])){
+    document.getElementById("Client Email").focus();
+    return false;
+  }
+
+  if(step===3 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data["Your Email"])){
+    document.getElementById("Your Email").focus();
+    return false;
+  }
+
+  return true;
+}
+
+function next(){
+  if(!validate()) return;
+  if(step<4){
+    step++;
+    render();
+  }else{
+    submitForm();
+  }
+}
+
+function back(){
+  collect();
+  step--;
+  render();
+}
+
+async function submitForm(){
+  const btn=document.getElementById("nextBtn");
+  const status=document.getElementById("status");
+
+  btn.disabled=true;
+  btn.textContent="Submitting…";
+  status.className="status info";
+  status.textContent="Submitting your project brief…";
+
+  try{
+    /*
+      n8n Form Trigger accepts form-urlencoded values.
+      Field names are exactly the production form's configured names.
+    */
+    const body=new URLSearchParams();
+    Object.entries(data).forEach(([key,value])=>body.append(key,value));
+
+    const response=await fetch(ENDPOINT,{
+      method:"POST",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:body.toString()
+    });
+
+    if(!response.ok){
+      throw new Error("HTTP "+response.status);
+    }
+
+    submitted=true;
+    render();
+
+  }catch(error){
+    status.className="status bad";
+    status.textContent=
+      "Submission could not be confirmed from this browser. If the form works inside n8n but not from this page, the production endpoint may need CORS enabled. No success screen was shown.";
+    btn.disabled=false;
+    btn.textContent="Try Again";
+  }
+}
+
+render();
+</script>
+</body>
+</html>
